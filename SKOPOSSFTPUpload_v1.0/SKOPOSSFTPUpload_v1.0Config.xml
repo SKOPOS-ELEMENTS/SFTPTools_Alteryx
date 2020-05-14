@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="SKOPOSSFTPUpload_v1.0Engine.py" SdkVersion="10.1" ToolFamily="SKOPOS_SFTP" />
+
+  <GuiSettings Html="SKOPOSSFTPUpload_v1.0Gui.html" Icon="SKOPOSSFTPUpload_v1.0Icon.png" SdkVersion="10.1">
+    <InputConnections>
+        <Connection Name="FileList" AllowMultiple="False" Optional="False" Type="Connection" Label="L" />
+    </InputConnections>
+    <OutputConnections>
+    </OutputConnections>
+  </GuiSettings>
+
+  <Properties>
+    <MetaInfo>
+      <Name>SFTP Uploader</Name>
+      <Description>Uploads files to an SFTP server. File paths are provided through the input. To upload current data stream, store to blob field.</Description>
+      <ToolVersion>1.0</ToolVersion>
+      <CategoryName>SKOPOS ELEMENTS</CategoryName>
+      <SearchTags>python, sdk, skopos, input, sftp, upload</SearchTags>
+      <Author>Christopher Harms</Author>
+      <Company>SKOPOS ELEMENTS GmbH</Company>
+      <Copyright>2020</Copyright>
+    </MetaInfo>
+  </Properties>
+
+</AlteryxJavaScriptPlugin>

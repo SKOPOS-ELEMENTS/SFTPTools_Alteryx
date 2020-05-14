@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Configuration>
+	
+	<EngineSettings EngineDll="Python" SdkVersion="10.1" ToolFamily="SKOPOS_SFTP" />
+	
+	<Properties>
+		<MetaInfo>
+			<Icon>SKOPOSSFTPDownload_v1.0\SKOPOSSFTPDownload_v1.0Icon.png</Icon>
+			<Name>SKOPOS ELEMENTS SFTP Tools for Alteryx</Name>
+			<CategoryName>SKOPOS ELEMENTS</CategoryName>
+			<ToolVersion>1.0.2</ToolVersion>
+			<Author>Christopher Harms, SKOPOS ELEMENTS</Author>
+			<Description><![CDATA[
+				Contains tools for downloading and uploading files from and to SFTP servers.<br />
+				Having the files as blob or local file, allows you to also load data from an SFTP server into your workflow.
+				Connections requiring private keys are supported.
+			]]></Description>
+		</MetaInfo>
+	</Properties>
+</Configuration>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="SKOPOSSFTPDownload_v1.0Engine.py" SdkVersion="10.1" ToolFamily="SKOPOS_SFTP" />
+
+  <GuiSettings Html="SKOPOSSFTPDownload_v1.0Gui.html" Icon="SKOPOSSFTPDownload_v1.0Icon.png" SdkVersion="10.1">
+    <InputConnections>
+        <Connection Name="FileList" AllowMultiple="False" Optional="True" Type="Connection" Label="L" />
+    </InputConnections>
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label="O" />
+    </OutputConnections>
+  </GuiSettings>
+
+  <Properties>
+    <MetaInfo>
+      <Name>SFTP Downloader</Name>
+      <Description>Downloads files from a SFTP connection. Can both list files and download a set of files or download a whole directory. Supports connections secured by private/public key exchange.</Description>
+      <ToolVersion>1.0</ToolVersion>
+      <CategoryName>SKOPOS ELEMENTS</CategoryName>
+      <SearchTags>python, sdk, skopos, input, sftp, download</SearchTags>
+      <Author>Christopher Harms</Author>
+      <Company>SKOPOS ELEMENTS GmbH</Company>
+      <Copyright>2020</Copyright>
+    </MetaInfo>
+  </Properties>
+
+</AlteryxJavaScriptPlugin>

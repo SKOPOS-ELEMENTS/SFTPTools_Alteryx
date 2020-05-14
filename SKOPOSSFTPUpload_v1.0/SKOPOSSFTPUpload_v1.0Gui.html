@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" style="padding: 10px;">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SKOPOS SFTP Upload v1.0</title>
+    <script type="text/javascript">
+        document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+    </script>
+    <style type="text/css">
+        body {
+          margin: 15px;
+        }
+        #widgetList {
+          padding-bottom: 20px;
+        }
+        .header-ruler {
+          background-color: #cccccc;
+          height: 1px;
+          border: 0 none;
+          flex-grow: 1;
+          margin-top: 0.625em;
+          margin-left: 10px;
+        }
+        .header-message {
+          color: #52617f;
+          font-size: 1.78em;
+          font-weight: normal;
+          padding-bottom: 0px;
+          margin: 0px;
+          margin-bottom: 20px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+        .header-message a {
+            width: 30%;
+            height: auto;
+            margin: 10px 5px 0 10px;
+            align-self: right;
+        }
+        section {
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 13px;
+            margin: 5px auto;
+        }
+        h2 {
+          padding: 10px 0 5px 0;
+          margin: 15px 5px 5px 0;
+          font-size: 1.556em;
+          font-weight: normal;
+          color: #52617f;
+        }
+        h3 {
+          color: #8698ba;
+          font-size: 1.167em;
+          margin: 6px 0px 3px 0;
+          padding: 0;
+          font-weight: normal;
+          line-height: 1.42857143;
+        }
+        h3.container:first-child {
+            border-top: 0;
+        }
+        h4 {
+            color: #8698ba;
+            margin: 3px 0px 2px 0;
+            padding: 0;
+            font-weight: normal;
+            line-height: 1.3;
+        }
+        .flex-row {
+          margin: 0;
+          padding: 0;
+        }
+        .flex-row li {
+          list-style: none;
+        }
+        label {
+            color: #8698ba;
+            margin: 10px 0 10px 0;
+        }
+
+        .hostname-box {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+        }
+        .hostname-box-host {
+            order: 1;
+            flex-grow: 1;
+        }
+        .hostname-box-port {
+            order: 3;
+            flex-grow: 0;
+            flex-basis: 5em;
+        }
+        .hostname-box-colon {
+            order: 2;
+            width: 1em;
+            color: #666;
+            text-align: center;
+            margin: 0 3px;
+            flex-grow: 0;
+        }
+        .hostname-box-protocol {
+            order: 0;
+            /* width: 4em; */
+            color: #666;
+            text-align: left;
+            flex-grow: 0;
+            margin-right: 4px;
+            flex-grow: 0;
+        }
+        footer {
+            margin: 15px 5px;
+            color: #212121;
+            font-size: 1.1em;
+        }
+        footer a, footer a:link, footer a:visited, footer a:active {
+            color: #000000;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        footer a:hover {
+            color: #212121;
+            text-decoration: none;
+        }
+      </style>
+</head>
+
+<body>
+    <div class="header-message">
+        <div>XMSG("Upload Files to SFTP")</div>
+        <hr class="header-ruler"></hr>
+        <a href="https://skopos-elements.de" target="_blank"><img src="ELEMENTS_Logo_Transparent.svg" alt="SKOPOS ELEMENTS"></a>
+    </div>
+
+    <section>
+        <h2>Connection Settings</h2>
+        <h3>Server</h3>
+        <div class="hostname-box">
+            <div class="hostname-box-protocol">
+                sftp://
+            </div>
+            <div class="hostname-box-host">
+                <ayx data-ui-props='{type: "TextBox", widgetId: "HostnameUI", placeholder: "e.g. transfer.tantive-iv.sw"}' data-item-props='{dataName: "Hostname", dataType: "SimpleString"}' required></ayx>
+            </div>
+            <div class="hostname-box-colon">:</div>
+            <div class="hostname-box-port">
+                <ayx data-ui-props='{type: "NumericSpinner", widgetId: "PortUI"}' data-item-props='{dataName: "Port", dataType: "SimpleInt"}'></ayx>
+            </div>
+        </div>
+        <h3>Username</h3>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "UsernameUI", placeholder: "e.g. leia.organa@galaxy.sw"}'
+             data-item-props='{dataName: "Username", dataType: "SimpleString"}'></ayx>
+        <h3>Password</h3>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "PasswordUI", placeholder: ""}' 
+             data-item-props='{dataName: "Password", dataType: "SimpleString"}'
+             class="password"></ayx>
+        <h3>Key File</h3>
+        <p>XMSG("Please provide a UNC path to key file (if a key file is needed). The key file needs to be compliant to OpenSSH standard (i.e. no .ppk file)!")</p>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "KeyFileUI", placeholder: "e.g. \\\\fileserver\\privatekey"}'
+             data-item-props='{dataName: "KeyfilePath", dataType: "SimpleString"}'></ayx>
+        <h4>Passphrase for Key File</h4>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "KeyPhraseUI", placeholder: ""}'
+             data-item-props='{dataName: "KeyfilePassphrase", dataType: "SimpleString", disabled: true}'
+             class="password"></ayx>
+        <h3>Remote Path</h3>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "RemotePathUI", placeholder: "/path/to/folder/"}'
+             data-item-props='{dataName: "RemotePath", dataType: "SimpleString"}'></ayx>
+    </section>
+
+    <section id="incoming-settings">
+        <h2>Upload Settings</h2>
+        <h3>Incoming Data Type</h3>
+        <ayx data-ui-props='{type: "RadioGroup", widgetId: "UploadModeUI"}'></ayx>
+        <h3>Field Containing Filenames</h3>
+        <p>When uploading Blobs, this field contains the filename on the server after upload.</p>
+        <ayx data-ui-props='{type: "DropDown", widgetId: "IncomingFieldUI", searchable: true}'
+             data-item-props='{dataName: "IncomingField", dataType: "FieldSelector"}'></ayx>
+        <h3>Field Containing Blobs</h3>
+        <ayx data-ui-props='{type: "DropDown", widgetId: "BlobFieldUI", searchable: true}'
+             data-item-props='{dataName: "BlobField", dataType: "FieldSelector"}'></ayx>
+        <h3>Overwrite Existing Fields</h3>
+        <ayx data-ui-props='{type: "CheckBox", widgetId: "OverwriteUI", label:"XMSG("Overwrite existing files on the server.")"}'
+             data-item-props='{dataName: "Overwrite", dataType: "SimpleBool"}'>
+        </ayx>
+        <h3>File Handling after Upload</h3>
+            <p>Applies only if incoming data are paths to files.</p>
+        <!-- <ayx data-ui-props='{type: "RadioGroup", widgetId: "FileHandlingUI"}' data-item-props='{dataName: "FileHandling", dataType: "StringSelector"}'> -->
+            <ayx data-ui-props='{type: "RadioButton", widgetId: "KeepFilesUI", groupName: "FileHandling", option: {value: "keep_files", label: "Keep Files"}}'
+                 data-item-props='{dataName: "FileHandling", dataType: "StringSelector", disabled: true}'></ayx>
+            <ayx data-ui-props='{type: "RadioButton", widgetId: "DeleteFilesUI", groupName: "FileHandling", option: {value: "delete_files", label: "Delete Files"}}'
+                 data-item-props='{dataName: "FileHandling", dataType: "StringSelector", disabled: true}'></ayx>
+            <ayx data-ui-props='{type: "RadioButton", widgetId: "MoveFilesUI", groupName: "FileHandling", option: {value: "move_files", label: "Move Files"}}'
+                 data-item-props='{dataName: "FileHandling", dataType: "StringSelector"}'>
+                <div id="move-path">
+                    <h4>Move Files to ...</h4>
+                    <p>Provide a path (absolute or UNC) to where files are moved after upload.</p>
+                    <ayx data-ui-props='{type: "TextBox", widgetId: "MovePathUI", placeholder: "C:\\Uploads\\Archive\\"}'
+                        data-item-props='{dataName: "MovePath", dataType: "SimpleString"}'></ayx>
+                </div>
+            </ayx>
+        <!-- </ayx> -->
+    </section>
+
+    <footer>
+        SFTP Tools by <a href="https://skopos-elements.de" target="_blank">SKOPOS ELEMENTS</a>. We &hearts; data science.
+    </footer>
+
+    <script type="text/javascript">
+        Alteryx.Gui.BeforeLoad = (manager, AlteryxDataItems, json) => {
+            // Type of incoming data
+            var uploadModeDI = new AlteryxDataItems.StringSelector('UploadMode', {
+                optionList: [
+                    { label: 'File Paths', value: 'upload_files' },
+                    { label: 'Blob Fields', value: 'upload_blobs' }
+                ]
+            })
+            manager.addDataItem(uploadModeDI)
+            manager.bindDataItemToWidget(uploadModeDI, 'UploadModeUI')
+
+            manager.getDataItem('KeyfilePath').registerPropertyListener('value', (propertyChangeEvent) => {
+                // Enable / disable field for keyfile passphrase
+                window.Alteryx.Gui.Manager.getDataItem('KeyfilePassphrase').setDisabled(propertyChangeEvent.value == "")
+            })
+            manager.getDataItem('UploadMode').registerPropertyListener('value', (propertyChangeEvent) => {
+                // Enable / disable fields for File Handling
+                window.Alteryx.Gui.Manager.getDataItem('FileHandling').setDisabled(propertyChangeEvent.value != "upload_files")
+                window.Alteryx.Gui.Manager.getDataItem('BlobField').setDisabled(propertyChangeEvent.value == "upload_files")
+            })
+            manager.getDataItem('FileHandling').registerPropertyListener('value', (propertyChangeEvent) => {
+                // Enable / disable fields for target path
+                window.Alteryx.Gui.Manager.getDataItem('MovePath').setDisabled(propertyChangeEvent.value != "move_files")
+            })
+
+            // Provide some defaults
+            if(manager.getDataItem('UploadMode').getValue() === "")
+                manager.getDataItem('UploadMode').setValue('upload_files')
+            if(manager.getDataItem('FileHandling').getValue() === "")
+                manager.getDataItem('FileHandling').setValue('keep_files')
+        }
+        Alteryx.Gui.AfterLoad = (manager) => {
+            // Change fields with passwords to password fields
+            pwdFields = window.document.querySelectorAll('.password input')
+            for (let idx = 0; idx < pwdFields.length; idx++) {
+                const element = pwdFields[idx];
+                element.setAttribute('type', 'password')
+            }
+        }
+    </script>
+</body>
+
+</html>

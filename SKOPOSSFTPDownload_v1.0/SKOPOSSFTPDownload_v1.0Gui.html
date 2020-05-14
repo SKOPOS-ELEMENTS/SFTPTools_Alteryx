@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" style="padding: 10px;">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SKOPOS SFTP Download v1.0</title>
+    <script type="text/javascript">
+        document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+    </script>
+    <style type="text/css">
+        body {
+          margin: 15px;
+        }
+        #widgetList {
+          padding-bottom: 20px;
+        }
+        .header-ruler {
+          background-color: #cccccc;
+          height: 1px;
+          border: 0 none;
+          flex-grow: 1;
+          margin-top: 0.625em;
+          margin-left: 10px;
+        }
+        .header-message {
+          color: #52617f;
+          font-size: 1.78em;
+          font-weight: normal;
+          padding-bottom: 0px;
+          margin: 0px;
+          margin-bottom: 20px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+        .header-message a {
+            width: 30%;
+            height: auto;
+            margin: 10px 5px 0 10px;
+            align-self: right;
+        }
+        section {
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 13px;
+            margin: 5px auto;
+        }
+        h2 {
+          padding: 10px 0 5px 0;
+          margin: 15px 5px 5px 0;
+          font-size: 1.556em;
+          font-weight: normal;
+          color: #52617f;
+        }
+        h3 {
+          color: #8698ba;
+          font-size: 1.167em;
+          margin: 6px 0px 3px 0;
+          padding: 0;
+          font-weight: normal;
+          line-height: 1.42857143;
+        }
+        h3.container:first-child {
+            border-top: 0;
+        }
+        h4 {
+            color: #8698ba;
+            margin: 3px 0px 2px 0;
+            padding: 0;
+            font-weight: normal;
+            line-height: 1.3;
+        }
+        .flex-row {
+          margin: 0;
+          padding: 0;
+        }
+        .flex-row li {
+          list-style: none;
+        }
+        label {
+            color: #8698ba;
+            margin: 10px 0 10px 0;
+        }
+
+        .hostname-box {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+        }
+        .hostname-box-host {
+            order: 1;
+            flex-grow: 1;
+        }
+        .hostname-box-port {
+            order: 3;
+            flex-grow: 0;
+            flex-basis: 5em;
+        }
+        .hostname-box-colon {
+            order: 2;
+            width: 1em;
+            color: #666;
+            text-align: center;
+            margin: 0 3px;
+            flex-grow: 0;
+        }
+        .hostname-box-protocol {
+            order: 0;
+            /* width: 4em; */
+            color: #666;
+            text-align: left;
+            flex-grow: 0;
+            margin-right: 4px;
+            flex-grow: 0;
+        }
+        footer {
+            margin: 15px 5px;
+            color: #212121;
+            font-size: 1.1em;
+        }
+        footer a, footer a:link, footer a:visited, footer a:active {
+            color: #000000;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        footer a:hover {
+            color: #212121;
+            text-decoration: none;
+        }
+      </style>
+</head>
+
+<body>
+    <div class="header-message">
+        <div>XMSG("Download Files from SFTP")</div>
+        <hr class="header-ruler"></hr>
+        <a href="https://skopos-elements.de" target="_blank"><img src="ELEMENTS_Logo_Transparent.svg" alt="SKOPOS ELEMENTS"></a>
+    </div>
+
+    <section>
+        <h2>Connection Settings</h2>
+        <h3>Server</h3>
+        <div class="hostname-box">
+            <div class="hostname-box-protocol">
+                sftp://
+            </div>
+            <div class="hostname-box-host">
+                <ayx data-ui-props='{type: "TextBox", widgetId: "HostnameUI", placeholder: "e.g. transfer.tantive-iv.sw"}' data-item-props='{dataName: "Hostname", dataType: "SimpleString"}' required></ayx>
+            </div>
+            <div class="hostname-box-colon">:</div>
+            <div class="hostname-box-port">
+                <ayx data-ui-props='{type: "NumericSpinner", widgetId: "PortUI"}' data-item-props='{dataName: "Port", dataType: "SimpleInt"}'></ayx>
+            </div>
+        </div>
+        <h3>Username</h3>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "UsernameUI", placeholder: "e.g. leia.organa@galaxy.sw"}'
+             data-item-props='{dataName: "Username", dataType: "SimpleString"}'></ayx>
+        <h3>Password</h3>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "PasswordUI", placeholder: ""}' 
+             data-item-props='{dataName: "Password", dataType: "SimpleString"}'
+             class="password"></ayx>
+        <h3>Key File</h3>
+        <p>XMSG("Please provide a UNC path to key file (if a key file is needed). The key file needs to be compliant to OpenSSH standard (i.e. no .ppk file)!")</p>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "KeyFileUI", placeholder: "e.g. \\\\fileserver\\privatekey"}'
+             data-item-props='{dataName: "KeyfilePath", dataType: "SimpleString"}'></ayx>
+        <h4>Passphrase for Key File</h4>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "KeyPhraseUI", placeholder: ""}'
+             data-item-props='{dataName: "KeyfilePassphrase", dataType: "SimpleString", disabled: true}'
+             class="password"></ayx>
+        <h3>Remote Path</h3>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "RemotePathUI", placeholder: "/path/to/folder/"}'
+             data-item-props='{dataName: "RemotePath", dataType: "SimpleString"}'></ayx>
+    </section>
+
+    <section id="incoming-settings">
+        <h2>Incoming Settings</h2>
+        <p>XMSG("When there is incoming data, you can dynamically download data (e.g. based on a previous output of this tool) or list sub-directories.")</p>
+        <h3>Field Containing Folder/File Names</h3>
+        <ayx data-ui-props='{type: "DropDown", widgetId: "IncomingFieldUI", searchable: true}'></ayx>
+        <p><small></small></p>
+    </section>
+
+    <section>
+        <h2>Output Settings</h2>
+        <h3>Tool Mode</h3>
+        <ayx data-ui-props='{type: "ToggleBar", widgetId: "ToolModeUI"}'></ayx>
+        <h3>Local Path</h3>
+        <p>XMSG("Only required if files are to be downloaded into a local directory. Please provide UNC path.")</p>
+        <ayx data-ui-props='{type: "TextBox", widgetId: "LocalPathUI", placeholder: "e.g. \\\\fileserver\\Output\\"}'
+             data-item-props='{dataName: "LocalPath", dataType: "SimpleString", disabled: true}'></ayx>
+        <h3>File Handling after Download</h3>
+        <!-- <ayx data-ui-props='{type: "RadioGroup", widgetId: "FileHandlingUI"}' data-item-props='{dataName: "FileHandling", dataType: "StringSelector"}'> -->
+            <ayx data-ui-props='{type: "RadioButton", widgetId: "KeepFilesUI", groupName: "FileHandling", option: {value: "keep_files", label: "Keep Files"}}'
+                 data-item-props='{dataName: "FileHandling", dataType: "StringSelector", disabled: true}'></ayx>
+            <ayx data-ui-props='{type: "RadioButton", widgetId: "DeleteFilesUI", groupName: "FileHandling", option: {value: "delete_files", label: "Delete Files"}}'
+                 data-item-props='{dataName: "FileHandling", dataType: "StringSelector", disabled: true}'></ayx>
+            <ayx data-ui-props='{type: "RadioButton", widgetId: "MoveFilesUI", groupName: "FileHandling", option: {value: "move_files", label: "Move Files"}}'
+                 data-item-props='{dataName: "FileHandling", dataType: "StringSelector"}'>
+                <div id="move-path">
+                    <h4>Move Files to ...</h4>
+                    <p>Specify path to which downloaded files are moved to. If it does not exist, files are kept as is.</p>
+                    <ayx data-ui-props='{type: "TextBox", widgetId: "MovePathUI", placeholder: "/path/to/folder/old/"}'
+                        data-item-props='{dataName: "MovePath", dataType: "SimpleString"}'></ayx>
+                </div>
+            </ayx>
+        <!-- </ayx> -->
+    </section>
+
+    <footer>
+        SFTP Tools by <a href="https://skopos-elements.de" target="_blank">SKOPOS ELEMENTS</a>. We &hearts; data science.
+    </footer>
+
+
+
+    <script type="text/javascript">
+        Alteryx.Gui.BeforeLoad = (manager, AlteryxDataItems, json) => {
+            // Tool mode
+            var toolmodeDI = new AlteryxDataItems.StringSelector('ToolMode', {
+                optionList: [
+                    { label: 'List Files', value: 'list' },
+                    { label: 'Download to Local Directory', value: 'download_file' },
+                    { label: 'Download to Blob field', value: 'download_blob' }
+                ]
+            })
+            manager.addDataItem(toolmodeDI)
+            manager.bindDataItemToWidget(toolmodeDI, 'ToolModeUI')
+
+            // Incoming Field
+            var hasIncomingStream = Object.keys(window.Alteryx.Gui.Manager._getInternalFieldListArray().fieldsByName).length > 0
+            if (hasIncomingStream) {
+                var incomingFieldDI = new AlteryxDataItems.FieldSelector('IncomingField', {
+                    manager: manager,
+                    anchorIndex: 0,
+                    connectionIndex: 0,
+                    includeNoneOption: false
+                })
+            } else {
+                // Dummy
+                var incomingFieldDI = new AlteryxDataItems.SimpleString('IncomingField')
+            }
+            manager.addDataItem(incomingFieldDI)
+            manager.bindDataItemToWidget(incomingFieldDI, 'IncomingFieldUI')
+            incomingFieldDI.setDisabled(!hasIncomingStream)
+
+            // Interactiveness
+            manager.getDataItem('ToolMode').registerPropertyListener('value', (propertyChangeEvent) => {
+                // Enable / disable field for local path
+                window.Alteryx.Gui.Manager.getDataItem('LocalPath').setDisabled(propertyChangeEvent.value != "download_file")
+                window.Alteryx.Gui.Manager.getDataItem('FileHandling').setDisabled(propertyChangeEvent.value == "list")
+            })
+            manager.getDataItem('KeyfilePath').registerPropertyListener('value', (propertyChangeEvent) => {
+                // Enable / disable field for keyfile passphrase
+                window.Alteryx.Gui.Manager.getDataItem('KeyfilePassphrase').setDisabled(propertyChangeEvent.value == "")
+            })
+            manager.getDataItem('FileHandling').registerPropertyListener('value', (propertyChangeEvent) => {
+                // Something doesn't work out here...
+                window.document.getElementById("move-path").hidden = (manager.getDataItem('FileHandling').getValue() != 'move_files')
+            })
+
+            // Default values
+            if (manager.getDataItem('ToolMode').getValue() === "")
+                manager.getDataItem('ToolMode').setValue('list')
+            if (manager.getDataItem('FileHandling').getValue() === "")
+                manager.getDataItem('FileHandling').setValue('keep_files')
+        }
+        Alteryx.Gui.AfterLoad = (manager) => {
+            // Change fields with passwords to password fields
+            pwdFields = window.document.querySelectorAll('.password input')
+            for (let idx = 0; idx < pwdFields.length; idx++) {
+                const element = pwdFields[idx];
+                element.setAttribute('type', 'password')
+            }
+            // Something doesn't work out here...
+            window.document.getElementById("move-path").hidden = (manager.getDataItem('FileHandling').getValue() != 'move_files')
+        }
+    </script>
+</body>
+
+</html>
