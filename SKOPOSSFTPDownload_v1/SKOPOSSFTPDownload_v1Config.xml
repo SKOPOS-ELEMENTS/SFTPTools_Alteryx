@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <AlteryxJavaScriptPlugin>
 
-  <EngineSettings EngineDll="Python" EngineDllEntryPoint="SKOPOSSFTPDownload_v1.0Engine.py" SdkVersion="10.1" ToolFamily="SKOPOS_SFTP" />
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="main.py" SdkVersion="10.1" ToolFamily="SKOPOS_SFTP" />
 
-  <GuiSettings Html="SKOPOSSFTPDownload_v1.0Gui.html" Icon="SKOPOSSFTPDownload_v1.0Icon.png" SdkVersion="10.1">
+  <GuiSettings Html="gui.html" Icon="icon.png" SdkVersion="10.1">
     <InputConnections>
         <Connection Name="FileList" AllowMultiple="False" Optional="True" Type="Connection" Label="L" />
     </InputConnections>

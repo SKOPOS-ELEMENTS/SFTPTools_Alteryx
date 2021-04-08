@@ -2,12 +2,18 @@
 AyxPlugin (required) has-a IncomingInterface (optional).
 Although defining IncomingInterface is optional, the interface methods are needed if an upstream tool exists.
 """
+import pysftp
+import sys
+
+#raise Exception(sys.version)
+#
+#raise Exception(vars(pysftp).keys())
 
 import re
 import os
 import AlteryxPythonSDK as Sdk
 import xml.etree.ElementTree as Et
-import pysftp
+
 import base64
 from datetime import datetime
 from enum import Enum

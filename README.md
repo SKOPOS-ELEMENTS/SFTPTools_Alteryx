@@ -1,6 +1,6 @@
 # Alteryx Tools for SFTP Transfers
 
-![Downloader Icon](SKOPOSSFTPDownload_v1.0/SKOPOSSFTPDownload_v1.0Icon.png "Downloader Icon")
+![Downloader Icon](SKOPOSSFTPDownload_v1/SKOPOSSFTPDownload_v1.0Icon.png "Downloader Icon")
 ![Uploader Icon](SKOPOSSFTPUpload_v1.0/SKOPOSSFTPUpload_v1.0Icon.png "Uploader Icon")
 
 This is a bundle of two [Alteryx](https://www.alteryx.com/products/alteryx-platform/alteryx-designer) tools for exchanging files with an SFTP server. (As of today, only the download tool is available.) The tools are built using the Python SDK and require only the fantastic `pysftp` and it's dependecies (notably, `paramiko`) and should be rather efficient.

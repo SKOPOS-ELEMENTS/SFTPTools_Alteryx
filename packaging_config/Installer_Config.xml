@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Configuration>
+	
+	<EngineSettings EngineDll="Python" SdkVersion="10.1" ToolFamily="SKOPOS_SFTP" />
+	
+	<Properties>
+		<MetaInfo>
+			<Icon>logo.png</Icon>
+			<Name>SFTP Tool Installer</Name>
+			<CategoryName>SKOPOS Analytics</CategoryName>
+			<ToolVersion>1.1</ToolVersion>
+			<Author>Michael Ellers, SKOPOS</Author>
+			<Description>
+				A number of tools that handle access to SFTP
+			</Description>
+		</MetaInfo>
+	</Properties>
+</Configuration>

@@ -131,3 +131,4 @@ dmypy.json
 
 *.bak
 Tests/Test Data/*
+.idea
